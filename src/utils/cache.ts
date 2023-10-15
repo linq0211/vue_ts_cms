@@ -32,7 +32,6 @@ class Cache {
     this.storage.removeItem(key)
   }
 }
-
 const localCache = new Cache(cacheType.LOCAL)
 const sessionCache = new Cache(cacheType.SESSION)
 

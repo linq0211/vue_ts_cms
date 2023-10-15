@@ -23,11 +23,12 @@ import { ElMessage } from 'element-plus'
 import type { FormRules, ElForm } from 'element-plus'
 import useLoginStore from '@/store/login/login'
 import type { IAccount } from '@/types'
+import { localCache } from '@/utils/cache'
 
 // 绑定表单及数据
 const accountForm = reactive<IAccount>({
-  name: '',
-  password: ''
+  name: localCache.getCache('name') ?? '',
+  password: localCache.getCache('password') ?? ''
 })
 
 // 定义账号校验规则
@@ -53,13 +54,21 @@ const accountRules: FormRules = {
 // 执行登录逻辑
 const formRef = ref<InstanceType<typeof ElForm>>()
 const loginStore = useLoginStore()
-const loginAction = () => {
+const loginAction = (rememberPwd: boolean) => {
   formRef.value?.validate((valid) => {
     if (valid) {
       const name = accountForm.name
       const password = accountForm.password
 
-      loginStore.loginAccountAction({ name, password })
+      loginStore.loginAccountAction({ name, password }).then(() => {
+        if (rememberPwd) {
+          localCache.setCache('name', name)
+          localCache.setCache('password', password)
+        } else {
+          localCache.removeCache('name')
+          localCache.removeCache('password')
+        }
+      })
     } else {
       ElMessage.error('你输入的用户名或密码格式不正确')
     }
