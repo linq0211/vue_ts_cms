@@ -58,12 +58,13 @@ import panelPhone from './panel-phone.vue'
 import { localCache } from '@/utils/cache'
 
 // 记住密码
-const rememberPwd = ref<boolean>(localCache.getCache('rememberPwd') ?? false)
+const REMEMBER_PWD = 'rememberPwd'
+const rememberPwd = ref<boolean>(localCache.getCache(REMEMBER_PWD) ?? false)
 watch(rememberPwd, (newValue) => {
-  if (localCache.getCache('rememberPwd')) {
-    localCache.removeCache('rememberPwd')
+  if (localCache.getCache(REMEMBER_PWD)) {
+    localCache.removeCache(REMEMBER_PWD)
   } else {
-    localCache.setCache('rememberPwd', newValue)
+    localCache.setCache(REMEMBER_PWD, newValue)
   }
 })
 
@@ -85,6 +86,7 @@ const accountRef = ref<InstanceType<typeof panelAccount>>()
 const onLoginBtnClick = () => {
   if (tabActive.value === 'account') {
     // console.log('登录方式为账号登录')
+
     // 调用实例方法
     accountRef.value?.loginAction(rememberPwd.value)
   } else {

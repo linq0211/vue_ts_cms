@@ -2,17 +2,16 @@ import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 import type { MyRequestConfig } from './type'
 
-
 // 拦截器: 蒙版Loading/token/修改配置
 /**
-* 两个难点:
-* 1.拦截器进行精细控制
-* > 全局拦截器
-* > 实例拦截器
-* > 单次请求拦截器
-*
-* 2.响应结果的类型处理(泛型)
-*/
+ * 两个难点:
+ * 1.拦截器进行精细控制
+ * > 全局拦截器
+ * > 实例拦截器
+ * > 单次请求拦截器
+ *
+ * 2.响应结果的类型处理(泛型)
+ */
 class MyRequest {
   instance: AxiosInstance
 

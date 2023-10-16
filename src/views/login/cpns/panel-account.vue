@@ -25,10 +25,14 @@ import useLoginStore from '@/store/login/login'
 import type { IAccount } from '@/types'
 import { localCache } from '@/utils/cache'
 
+
+const ACCOUNT_NAME = 'name'
+const ACCOUNT_PASSWORD = 'password'
+
 // 绑定表单及数据
 const accountForm = reactive<IAccount>({
-  name: localCache.getCache('name') ?? '',
-  password: localCache.getCache('password') ?? ''
+  name: localCache.getCache(ACCOUNT_NAME) ?? '',
+  password: localCache.getCache(ACCOUNT_PASSWORD) ?? ''
 })
 
 // 定义账号校验规则
@@ -62,11 +66,11 @@ const loginAction = (rememberPwd: boolean) => {
 
       loginStore.loginAccountAction({ name, password }).then(() => {
         if (rememberPwd) {
-          localCache.setCache('name', name)
-          localCache.setCache('password', password)
+          localCache.setCache(ACCOUNT_NAME, name)
+          localCache.setCache(ACCOUNT_PASSWORD, password)
         } else {
-          localCache.removeCache('name')
-          localCache.removeCache('password')
+          localCache.removeCache(ACCOUNT_NAME)
+          localCache.removeCache(ACCOUNT_PASSWORD)
         }
       })
     } else {
