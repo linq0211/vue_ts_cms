@@ -12,27 +12,32 @@ import {
 const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
     token: localCache.getCache(TOKEN) ?? '',
-    userInfo: {},
-    userMenu: []
+    userInfo: localCache.getCache('userInfo') ?? {},
+    userMenu: localCache.getCache('userMenu') ?? []
   }),
   actions: {
     async loginAccountAction(account: IAccount) {
-      // 发送网络请求
+      // 请求用户登录
       const loginResult = await accountLoginRequest(account)
       const id = loginResult.data.id
       this.token = loginResult.data.token
-
-      // 使用缓存工具对token进行缓存
+      // 缓存token
       localCache.setCache(TOKEN, this.token)
 
-      // 通过id判断当前用户信息
+      // 通过用户登录的用户id判断当前用户信息
       const userInfoResult = await getUserInfoById(id)
-      this.userInfo = userInfoResult.data
+      const userInfo = userInfoResult.data
+      this.userInfo = userInfo
 
-      // 通过用户信息中的角色roleId获取菜单信息
+      // 通过用户信息的角色roleId获取菜单信息
       const role = this.userInfo.role
       const userMenuResult = await getUserMenuByRoleId(role.id)
-      this.userMenu = userMenuResult.data
+      const userMenu = userMenuResult.data
+      this.userMenu = userMenu
+
+      // 使用缓存工具进行缓存，防止刷新后数据丢失
+      localCache.setCache('userInfo', userInfo)
+      localCache.setCache('userMenu', userMenu)
 
       // 跳转至main页面
       router.push('/main')
