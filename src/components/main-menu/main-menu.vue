@@ -6,7 +6,7 @@
     </div>
     <div class="menu">
       <el-menu
-        default-active="39"
+        :default-active="defaultActive"
         text-color="#b7bdc3"
         :collapse="isFold"
         active-text-color="#fff"
@@ -21,7 +21,10 @@
               <span>{{ item.name }}</span>
             </template>
             <template v-for="subItem in item.children" :key="subItem.id">
-              <el-menu-item :index="subItem.id + ''">
+              <el-menu-item
+                :index="subItem.id + ''"
+                @click="onMenuItemClick(subItem)"
+              >
                 {{ subItem.name }}
               </el-menu-item>
             </template>
@@ -33,15 +36,40 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import useLoginStore from '@/store/login/login'
+import { mapPathToMenus } from '@/utils/map-menus'
 defineProps({
   isFold: {
     type: Boolean,
     default: false
   }
 })
+
+//获取loginstore中的用户菜单
 const loginStore = useLoginStore()
 const userMenu = loginStore.userMenu
+
+// 点击子菜单进行跳转url
+const router = useRouter()
+const onMenuItemClick = (item: any) => {
+  const url = item.url
+  router.push(url)
+}
+
+// 动态获取defaultActive
+// 获取当前url
+const route = useRoute()
+
+// 动态展示当前激活菜单的 index
+const defaultActive = computed(() => {
+  // 将当前url和所有菜单进行匹配
+  const menu = mapPathToMenus(route.path, userMenu)
+
+  // 返回当前匹配菜单的id
+  return menu.id + ''
+})
 </script>
 
 <style scoped lang="less">

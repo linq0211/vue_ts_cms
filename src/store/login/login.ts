@@ -8,14 +8,16 @@ import {
   getUserInfoById,
   getUserMenuByRoleId
 } from '@/service/login/login'
+import { mapMenusToRoutes } from '@/utils/map-menus'
 
 const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
-    token: localCache.getCache(TOKEN) ?? '',
-    userInfo: localCache.getCache('userInfo') ?? {},
-    userMenu: localCache.getCache('userMenu') ?? []
+    token: '',
+    userInfo: {},
+    userMenu: []
   }),
   actions: {
+    // 用户点击登录时
     async loginAccountAction(account: IAccount) {
       // 请求用户登录
       const loginResult = await accountLoginRequest(account)
@@ -39,8 +41,30 @@ const useLoginStore = defineStore('login', {
       localCache.setCache('userInfo', userInfo)
       localCache.setCache('userMenu', userMenu)
 
+      // 动态路由
+      const route = mapMenusToRoutes(userMenu)
+      route.forEach((item) => router.addRoute('main', item))
+
       // 跳转至main页面
       router.push('/main')
+    },
+    // 无论第一次或者重新进入哪个页面，都会执行
+    loadLoginStore() {
+      // 刷新页面的时重新进行一次路由映射
+      const token = localCache.getCache(TOKEN)
+      const userInfo = localCache.getCache('userInfo')
+      const userMenu = localCache.getCache('userMenu')
+
+      // 判断store中的数据是否已经在本地有值，判断了之后就放入值
+      if (token && userInfo && userMenu) {
+        this.token = token
+        this.userInfo = userInfo
+        this.userMenu = userMenu
+
+        // 在进行动态路由的增加
+        const route = mapMenusToRoutes(userMenu)
+        route.forEach((item) => router.addRoute('main', item))
+      }
     }
   }
 })

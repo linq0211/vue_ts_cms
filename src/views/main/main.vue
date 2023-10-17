@@ -8,7 +8,9 @@
         <el-header height="50px">
           <main-header @fold-change="onFoldChange" />
         </el-header>
-        <el-main>Main</el-main>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -33,7 +35,7 @@ const onFoldChange = (flag: boolean) => {
     .el-aside {
       overflow-x: hidden;
       overflow-y: auto;
-      transition: width .6s ease;
+      transition: width 0.6s ease;
       &::-webkit-scrollbar {
         display: none;
       }

@@ -58,7 +58,7 @@ import panelPhone from './panel-phone.vue'
 import { localCache } from '@/utils/cache'
 
 // 记住密码
-const REMEMBER_PWD = 'rememberPwd'
+const REMEMBER_PWD = 'isRemPwd'
 const rememberPwd = ref<boolean>(localCache.getCache(REMEMBER_PWD) ?? false)
 watch(rememberPwd, (newValue) => {
   if (localCache.getCache(REMEMBER_PWD)) {

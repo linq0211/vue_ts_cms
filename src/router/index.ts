@@ -1,5 +1,6 @@
 import { TOKEN } from '@/global/constants'
 import { localCache } from '@/utils/cache'
+import { firstMenu } from '@/utils/map-menus'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const router = createRouter({
@@ -11,10 +12,12 @@ const router = createRouter({
     },
     {
       path: '/login',
+      name: 'login',
       component: () => import('@/views/login/login.vue')
     },
     {
       path: '/main',
+      name: 'main',
       component: () => import('@/views/main/main.vue')
     },
     {
@@ -35,8 +38,13 @@ router.beforeEach((to) => {
   const token = localCache.getCache(TOKEN)
 
   // 判断跳转页面是否为main并且是否缓存中携带token
-  if (!token && to.path === '/main') {
+  if (!token && to.path.startsWith('/main')) {
     return '/login'
+  }
+
+  // 当前处于main页面时，显示所有菜单中的第一个菜单页面
+  if (to.path === '/main') {
+    return firstMenu.url
   }
 })
 

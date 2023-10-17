@@ -25,7 +25,6 @@ import useLoginStore from '@/store/login/login'
 import type { IAccount } from '@/types'
 import { localCache } from '@/utils/cache'
 
-
 const ACCOUNT_NAME = 'name'
 const ACCOUNT_PASSWORD = 'password'
 

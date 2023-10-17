@@ -19,7 +19,7 @@
             :size="20"
             src="https://upload.jianshu.io/users/upload_avatars/1102036/c3628b478f06.jpeg"
           />
-          <span class="name">coderwhy</span>
+          <span class="name">{{ name }}</span>
         </span>
         <template #dropdown>
           <el-dropdown-menu>
@@ -52,6 +52,7 @@ const handleExitClick = () => {
   localCache.removeCache(TOKEN)
   router.push('/login')
 }
+const name = localCache.getCache('name')
 </script>
 
 <style scoped lang="less">
@@ -87,18 +88,20 @@ const handleExitClick = () => {
       display: flex;
       align-items: center;
       cursor: pointer;
+      // 取消选中时的黑框
+      &:focus-visible {
+        outline: none;
+      }
       .name {
         margin-left: 5px;
       }
     }
   }
   .info {
+    // 下拉菜单内容位于根元素app的外面
     :global(.el-dropdown-menu__item) {
       line-height: 36px !important;
       padding: 6px 22px;
-    }
-    :deep(.el-tooltip__trigger:focus-visible) {
-      outline: unset;
     }
   }
 }
