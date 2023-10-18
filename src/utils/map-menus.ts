@@ -14,6 +14,7 @@ function loadAllRouterFiles() {
     localRoutes.push(modules.default)
   }
 
+  // [{path:,components:}...]
   return localRoutes
 }
 
@@ -29,11 +30,13 @@ export function mapMenusToRoutes(userMenu: any[]) {
   for (const menu of userMenu) {
     for (const subMenu of menu.children) {
       // 将当前用户角色对应的菜单url和所有的url进行比较，相匹配就进行保存
+
+      // route 存放菜单对应的所有二级路由
+      // routes 当前循环中和所有url匹配的二级路由
       const routes = localRoutes.find((item) => item.path === subMenu.url)
       if (routes) {
-        // 判断是否已经包含当前的一级菜单
+        // 给routes的顶层菜单增加重定向功能，但只需要添加一次
         if (!route.find((item) => item.path === menu.url)) {
-          // 将一级菜单页导入到动态路由中，并且重定向为第一个二级菜单
           route.push({ path: menu.url, redirect: routes.path })
         }
         route.push(routes)
@@ -63,7 +66,7 @@ export function mapPathToMenus(path: string, userMenu: any) {
 }
 interface ICrumb {
   name: string
-  path?: string
+  path: string
 }
 export function mapPathToCrumb(path: string, userMenu: any) {
   const breadCrumb: ICrumb[] = []
