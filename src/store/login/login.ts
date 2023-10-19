@@ -9,6 +9,7 @@ import {
   getUserMenuByRoleId
 } from '@/service/login/login'
 import { mapMenusToRoutes } from '@/utils/map-menus'
+import useSystemStore from '../main/system/system'
 
 const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
@@ -45,6 +46,11 @@ const useLoginStore = defineStore('login', {
       const route = mapMenusToRoutes(userMenu)
       route.forEach((item) => router.addRoute('main', item))
 
+      // 获取角色和菜单列表
+      const systemStore = useSystemStore()
+      systemStore.fetchRoleListAction()
+      systemStore.fetchDepartmentListAction()
+
       // 跳转至main页面
       router.push('/main')
     },
@@ -60,6 +66,11 @@ const useLoginStore = defineStore('login', {
         this.token = token
         this.userInfo = userInfo
         this.userMenu = userMenu
+
+        // 获取角色和菜单列表
+        const systemStore = useSystemStore()
+        systemStore.fetchRoleListAction()
+        systemStore.fetchDepartmentListAction()
 
         // 在进行动态路由的增加
         const route = mapMenusToRoutes(userMenu)

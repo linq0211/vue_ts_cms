@@ -60,22 +60,31 @@
 import { reactive, ref } from 'vue'
 import type { ElForm } from 'element-plus'
 
+// 向父组件发送事件
+const emit = defineEmits(['reset-click', 'query-click'])
+
+// 定义表单相关内容
 const searchForm = reactive({
   name: '',
   realname: '',
   cellphone: '',
   enable: 1,
-  createAt: [] as any
+  createAt: ''
 })
 
 // 重置表单内容
 const formRef = ref<InstanceType<typeof ElForm>>()
 const onResetClick = () => {
+  // 将表单内容(searchForm)重置为空
   formRef.value?.resetFields()
+
+  // 向父组件发送重置事件
+  emit('reset-click')
 }
 // 查询
 const onQueryClick = () => {
-  console.log('查询')
+  // 向父组件发送查询事件，并且携带上表单中的内容
+  emit('query-click', searchForm)
 }
 </script>
 

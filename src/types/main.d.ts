@@ -11,6 +11,10 @@ interface IUser {
 }
 
 export interface ISyetem {
-  totalCount: number
+  userTotalCount: number
   userList: IUser[]
+  roleTotalCount: number
+  roleList: any
+  departmentTotalCount: number
+  departmentList: any
 }
