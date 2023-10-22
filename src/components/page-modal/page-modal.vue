@@ -13,9 +13,11 @@
           <el-form-item :label="item.label" :prop="item.prop">
             <template v-if="item.type === 'input'">
               <el-input
+                v-if="item.prop !== 'imgUrl'"
                 v-model="dialogForm[item.prop]"
                 :placeholder="item.placeholder"
               />
+              <slot v-else :name="item.slotName"></slot>
             </template>
             <template v-else-if="item.type === 'select'">
               <el-select

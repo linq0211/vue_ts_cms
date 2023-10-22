@@ -2,7 +2,11 @@
   <div class="page-content">
     <div class="header">
       <h3 class="title">{{ contentConfig.header.title }}</h3>
-      <el-button type="primary" @click="onAddClick">
+      <el-button
+        v-if="contentConfig.header.btnTitle"
+        type="primary"
+        @click="onAddClick"
+      >
         {{ contentConfig.header.btnTitle }}
       </el-button>
     </div>
@@ -20,6 +24,7 @@
               align="center"
               :prop="item.prop"
               :label="item.label"
+              :min-width="item.width ?? '200px'"
             >
               <template #default="scope">
                 {{ formatDate(scope.row[item.prop]) }}
@@ -51,6 +56,18 @@
                 >
                   删除
                 </el-button>
+              </template>
+            </el-table-column>
+          </template>
+          <template v-else-if="item.type === 'custom'">
+            <el-table-column
+              align="center"
+              :prop="item.prop"
+              :width="item.width"
+              :label="item.label"
+            >
+              <template #default="scope">
+                <slot :name="item.slotName" v-bind="scope"></slot>
               </template>
             </el-table-column>
           </template>
@@ -91,7 +108,7 @@ interface IProps {
     pageName: string
     header: {
       title: string
-      btnTitle: string
+      btnTitle?: string
     }
     formItem: any[]
     childrenTree?: any

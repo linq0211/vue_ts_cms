@@ -6,10 +6,6 @@ export interface ISyetem {
   pageList: any
 }
 
-export interface IStory{
-  storyList: any
-}
-
 export interface IModalConfig {
   pageName: string
   header: {
