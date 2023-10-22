@@ -81,3 +81,30 @@ export function mapPathToCrumb(path: string, userMenu: any) {
   }
   return breadCrumb
 }
+
+export function mapMenuListToIds(menuList: any[]) {
+  const ids: number[] = []
+  // 普通方法
+  // for (const itemX of menuList) {
+  //   if(!itemX.children) continue
+  //   for(const itemY of itemX.children) {
+  //     if(!itemY.children) continue
+  //     for(const itemZ of itemY.children) {
+  //       ids.push(itemZ.id)
+  //     }
+  //   }
+  // }
+
+  // 递归
+  function recurseFn(menus: any[]) {
+    for (const menu of menus) {
+      if (menu.children) {
+        recurseFn(menu.children)
+      } else {
+        ids.push(menu.id)
+      }
+    }
+  }
+  recurseFn(menuList)
+  return ids
+}

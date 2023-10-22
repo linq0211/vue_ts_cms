@@ -50,6 +50,7 @@ const useLoginStore = defineStore('login', {
       const systemStore = useSystemStore()
       systemStore.fetchRoleListAction()
       systemStore.fetchDepartmentListAction()
+      systemStore.fetchMenuListAction()
 
       // 跳转至main页面
       router.push('/main')
@@ -71,6 +72,7 @@ const useLoginStore = defineStore('login', {
         const systemStore = useSystemStore()
         systemStore.fetchRoleListAction()
         systemStore.fetchDepartmentListAction()
+        systemStore.fetchMenuListAction()
 
         // 在进行动态路由的增加
         const route = mapMenusToRoutes(userMenu)

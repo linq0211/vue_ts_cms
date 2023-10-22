@@ -14,6 +14,13 @@ export function postRoleList() {
   })
 }
 
+// 获取菜单列表
+export function postMenuList() {
+  return myRequest.post({
+    url: '/menu/list'
+  })
+}
+
 // 获取列表
 export function postPageList(pageName: string, queryData: any = {}) {
   return myRequest.post({

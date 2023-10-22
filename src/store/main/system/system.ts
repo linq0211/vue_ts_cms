@@ -1,6 +1,7 @@
 import {
   postDepartmentList,
   postRoleList,
+  postMenuList,
   postPageList,
   addPageRequest,
   deletePageRequest,
@@ -13,6 +14,7 @@ const useSystemStore = defineStore('system', {
   state: (): ISyetem => ({
     roleList: [],
     departmentList: [],
+    allMenuList: [],
     pageTotalCount: 0,
     pageList: []
   }),
@@ -24,6 +26,10 @@ const useSystemStore = defineStore('system', {
     async fetchDepartmentListAction() {
       const departmentResult = await postDepartmentList()
       this.departmentList = departmentResult.data.list
+    },
+    async fetchMenuListAction() {
+      const menuResult = await postMenuList()
+      this.allMenuList = menuResult.data.list
     },
     async fetchPageListAction(pageName: string, queryData: any) {
       const pageResult = await postPageList(pageName, queryData)

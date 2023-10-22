@@ -11,8 +11,8 @@
         :data="pageList"
         border
         style="width: 100%"
-        :row-key="contentConfig.otherInfo.rowKey"
-        :tree-props="contentConfig.otherInfo.treeProps"
+        :row-key="contentConfig.childrenTree?.rowKey"
+        :tree-props="contentConfig.childrenTree?.treeProps"
       >
         <template v-for="item in contentConfig.formItem" :key="item.prop">
           <template v-if="item.type === 'time'">
@@ -57,6 +57,7 @@
           <template v-else>
             <el-table-column
               align="center"
+              :type="item.type"
               :prop="item.prop"
               :width="item.width"
               :label="item.label"
@@ -72,8 +73,8 @@
         :page-sizes="[10, 20, 30]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="pageTotalCount"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
+        @update:page-size="handleSizeChange"
+        @update:current-page="handleCurrentChange"
       />
     </div>
   </div>
@@ -93,7 +94,7 @@ interface IProps {
       btnTitle: string
     }
     formItem: any[]
-    otherInfo?: any
+    childrenTree?: any
   }
 }
 

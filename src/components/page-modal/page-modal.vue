@@ -28,6 +28,9 @@
                 </template>
               </el-select>
             </template>
+            <template v-else-if="item.type === 'custom'">
+              <slot :name="item.slotName"></slot>
+            </template>
           </el-form-item>
         </template>
       </el-form>
@@ -54,6 +57,7 @@ interface IProps {
     }
     formItem: any[]
   }
+  otherInfo?: any
 }
 
 // 接收父组件传递参数
@@ -107,17 +111,21 @@ const setDialogVisible = (isAdd: boolean, itemData?: any) => {
 // 确定按钮的点击
 const onConfirmClick = () => {
   dialogVisible.value = false
+  let infoData = dialogForm
+  if (props.otherInfo) {
+    infoData = { ...infoData, ...props.otherInfo }
+  }
 
   if (!isAddRef.value && editData.value) {
     // 编辑
     systemStore.editPageAction(
       props.modalConfig.pageName,
       editData.value.id,
-      dialogForm
+      infoData
     )
   } else {
     // 增加
-    systemStore.addPageAction(props.modalConfig.pageName, dialogForm)
+    systemStore.addPageAction(props.modalConfig.pageName, infoData)
   }
 }
 
@@ -130,5 +138,8 @@ defineExpose({
 <style scoped>
 .el-form {
   padding: 0 20px;
+  :deep(.el-tree) {
+    margin-left: -30px;
+  }
 }
 </style>
