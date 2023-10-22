@@ -1,11 +1,11 @@
 <template>
-  <div class="user-content">
+  <div class="page-content">
     <div class="header">
       <h3 class="title">用户列表</h3>
-      <el-button type="primary" @click="onAddClick">新建数据</el-button>
+      <el-button type="primary" @click="onAddClick">新建用户</el-button>
     </div>
     <div class="content">
-      <el-table :data="userList" border style="width: 100%">
+      <el-table :data="pageList" border style="width: 100%">
         <el-table-column align="center" type="selection" width="50px" />
         <el-table-column
           align="center"
@@ -83,7 +83,7 @@
         v-model:page-size="pageSize"
         :page-sizes="[10, 20, 30]"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="userTotalCount"
+        :total="pageTotalCount"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -102,36 +102,36 @@ const emit = defineEmits(['add-click', 'edit-click'])
 
 // 获取store中的数据
 const systemStore = useSystemStore()
-const { userList, userTotalCount } = storeToRefs(systemStore)
+const { pageList, pageTotalCount } = storeToRefs(systemStore)
 
 // 分页相关数据
 const currentPage = ref(1) // 当前页数
 const pageSize = ref(10) // 每页条目数
 
 // 对网络请求进行封装
-const postUserListData = (formData: any = {}) => {
+const postPageListData = (formData: any = {}) => {
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
 
   const queryData = { size, offset, ...formData }
-  systemStore.fetchUserListAction(queryData)
+  systemStore.fetchPageListAction('users', queryData)
 }
 
 // 分页逻辑
 // 进入到该页面时，先进行一次网络请求，展示默认数据
-postUserListData()
+postPageListData()
 // pageSize发生改变时触发，重新发送网络请求
 const handleSizeChange = () => {
-  postUserListData()
+  postPageListData()
 }
 // currentPage发生改变时触发，重新发送网络请求
 const handleCurrentChange = () => {
-  postUserListData()
+  postPageListData()
 }
 
 // 删除/新增/修改
 const onDeleteClick = (id: number) => {
-  systemStore.deleteUserAction(id)
+  systemStore.deletePageAction('users', id)
 }
 const onAddClick = () => {
   emit('add-click')
@@ -142,12 +142,12 @@ const onEditClick = (itemData: any) => {
 
 // 将子组件的方法暴露给父组件
 defineExpose({
-  postUserListData
+  postPageListData
 })
 </script>
 
 <style scoped lang="less">
-.user-content {
+.page-content {
   background-color: #fff;
   padding: 20px;
   margin-top: 20px;

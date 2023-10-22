@@ -14,33 +14,33 @@ export function postRoleList() {
   })
 }
 
-// 获取用户列表
-export function postUserList(queryData: any) {
+// 获取列表
+export function postPageList(pageName: string, queryData: any = {}) {
   return myRequest.post({
-    url: '/users/list',
+    url: `/${pageName}/list`,
     data: queryData
   })
 }
 
-// 增加用户
-export function addUserRequest(addData: any) {
+// 增加
+export function addPageRequest(pageName: string, addData: any) {
   return myRequest.post({
-    url: '/users',
+    url: `/${pageName}`,
     data: addData
   })
 }
 
-// 删除用户
-export function deleteUserRequest(id: number) {
+// 删除
+export function deletePageRequest(pageName: string, id: number) {
   return myRequest.delete({
-    url: `/users/${id}`
+    url: `/${pageName}/${id}`
   })
 }
 
-// 修改用户
-export function editUserRequest(id: number, editData: any) {
+// 修改
+export function editPageRequest(pageName: string, id: number, editData: any) {
   return myRequest.patch({
-    url: `/users/${id}`,
+    url: `/${pageName}/${id}`,
     data: editData
   })
 }

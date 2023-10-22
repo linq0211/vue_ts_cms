@@ -1,31 +1,31 @@
 <template>
-  <div class="user">
-    <user-search @query-click="onQueryClick" @reset-click="onResetClick" />
-    <user-content
+  <div class="page">
+    <page-search @query-click="onQueryClick" @reset-click="onResetClick" />
+    <page-content
       ref="contentRef"
       @add-click="onAddClick"
       @edit-click="onEditClick"
     />
-    <user-modal ref="modalRef" />
+    <page-modal ref="modalRef" />
   </div>
 </template>
 
 <script setup lang="ts" name="user">
 import { ref } from 'vue'
-import userSearch from './cpns/user-search.vue'
-import userContent from './cpns/user-content.vue'
-import userModal from './cpns/user-modal.vue'
+import pageSearch from './cpns/page-search.vue'
+import pageContent from './cpns/page-content.vue'
+import pageModal from './cpns/page-modal.vue'
 
 // 获取组件实例
-const contentRef = ref<InstanceType<typeof userContent>>()
-const modalRef = ref<InstanceType<typeof userModal>>()
+const contentRef = ref<InstanceType<typeof pageContent>>()
+const modalRef = ref<InstanceType<typeof pageModal>>()
 
 // 对search组件传来的事件进行响应
 const onResetClick = () => {
-  contentRef.value?.postUserListData()
+  contentRef.value?.postPageListData()
 }
 const onQueryClick = (formData: any) => {
-  contentRef.value?.postUserListData(formData)
+  contentRef.value?.postPageListData(formData)
 }
 
 // 对content组件传来的事件进行响应
@@ -38,7 +38,7 @@ const onEditClick = (itemData: any) => {
 </script>
 
 <style scoped lang="less">
-.user {
+.page {
   border-radius: 8px;
   overflow: hidden;
 }

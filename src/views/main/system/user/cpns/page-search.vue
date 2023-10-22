@@ -1,5 +1,5 @@
 <template>
-  <div class="user-search">
+  <div class="page-search">
     <el-form :model="searchForm" ref="formRef" label-width="80px" size="large">
       <el-row :gutter="20">
         <el-col :span="8">
@@ -89,7 +89,7 @@ const onQueryClick = () => {
 </script>
 
 <style scoped lang="less">
-.user-search {
+.page-search {
   background-color: #fff;
   padding: 20px;
 

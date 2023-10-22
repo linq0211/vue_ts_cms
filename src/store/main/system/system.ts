@@ -1,59 +1,55 @@
 import {
-  addUserRequest,
-  deleteUserRequest,
-  editUserRequest,
   postDepartmentList,
   postRoleList,
-  postUserList
+  postPageList,
+  addPageRequest,
+  deletePageRequest,
+  editPageRequest
 } from '@/service/main/system/system'
 import type { ISyetem } from '@/types'
 import { defineStore } from 'pinia'
 
 const useSystemStore = defineStore('system', {
   state: (): ISyetem => ({
-    userTotalCount: 0,
-    userList: [],
-    roleTotalCount: 0,
     roleList: [],
-    departmentTotalCount: 0,
-    departmentList: []
+    departmentList: [],
+    pageTotalCount: 0,
+    pageList: []
   }),
   actions: {
-    async fetchUserListAction(queryData: any) {
-      const userListResult = await postUserList(queryData)
-      this.userTotalCount = userListResult.data.totalCount
-      this.userList = userListResult.data.list
-    },
     async fetchRoleListAction() {
       const roleListResult = await postRoleList()
-      this.roleTotalCount = roleListResult.data.totalCount
       this.roleList = roleListResult.data.list
     },
     async fetchDepartmentListAction() {
       const departmentResult = await postDepartmentList()
-      this.departmentTotalCount = departmentResult.data.totalCount
       this.departmentList = departmentResult.data.list
     },
-    async addUserAction(addData: any) {
-      // 增加用户
-      await addUserRequest(addData)
-
-      // 重新获取用户列表
-      this.fetchUserListAction({ offset: 0, size: 10 })
+    async fetchPageListAction(pageName: string, queryData: any) {
+      const pageResult = await postPageList(pageName, queryData)
+      this.pageTotalCount = pageResult.data.totalCount
+      this.pageList = pageResult.data.list
     },
-    async deleteUserAction(id: number) {
-      // 删除用户
-      await deleteUserRequest(id)
+    async addPageAction(pageName: string, addData: any) {
+      // 增加
+      await addPageRequest(pageName, addData)
 
-      // 重新获取用户列表
-      this.fetchUserListAction({ offset: 0, size: 10 })
+      // 重新获取列表
+      this.fetchPageListAction(pageName, { offset: 0, size: 10 })
     },
-    async editUserAction(id: number, editData: any) {
-      // 修改用户
-      await editUserRequest(id, editData)
+    async deletePageAction(pageName: string, id: number) {
+      // 删除
+      await deletePageRequest(pageName, id)
 
-      // 重新获取用户列表
-      this.fetchUserListAction({ offset: 0, size: 10 })
+      // 重新获取列表
+      this.fetchPageListAction(pageName, { offset: 0, size: 10 })
+    },
+    async editPageAction(pageName: string, id: number, editData: any) {
+      // 修改
+      await editPageRequest(pageName, id, editData)
+
+      // 重新获取列表
+      this.fetchPageListAction(pageName, { offset: 0, size: 10 })
     }
   }
 })

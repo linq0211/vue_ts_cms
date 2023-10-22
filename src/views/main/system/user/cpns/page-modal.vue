@@ -115,10 +115,10 @@ const onConfirmClick = () => {
   dialogVisible.value = false
   if (!isAddRef.value && editData.value) {
     // 编辑
-    systemStore.editUserAction(editData.value.id, dialogForm)
+    systemStore.editPageAction('users', editData.value.id, dialogForm)
   } else {
     // 增加
-    systemStore.addUserAction(dialogForm)
+    systemStore.addPageAction('users', dialogForm)
   }
 }
 
