@@ -8,14 +8,15 @@ import {
   getUserInfoById,
   getUserMenuByRoleId
 } from '@/service/login/login'
-import { mapMenusToRoutes } from '@/utils/map-menus'
+import { mapMenusToPermissions, mapMenusToRoutes } from '@/utils/map-menus'
 import useSystemStore from '../main/system/system'
 
 const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
     token: '',
     userInfo: {},
-    userMenu: []
+    userMenu: [],
+    permissions: []
   }),
   actions: {
     // 用户点击登录时
@@ -38,6 +39,10 @@ const useLoginStore = defineStore('login', {
       const userMenu = userMenuResult.data
       this.userMenu = userMenu
 
+      // 获取按钮权限
+      const permissions = mapMenusToPermissions(userMenu)
+      this.permissions = permissions
+
       // 使用缓存工具进行缓存，防止刷新后数据丢失
       localCache.setCache('userInfo', userInfo)
       localCache.setCache('userMenu', userMenu)
@@ -48,9 +53,7 @@ const useLoginStore = defineStore('login', {
 
       // 获取角色和菜单列表
       const systemStore = useSystemStore()
-      systemStore.fetchRoleListAction()
-      systemStore.fetchDepartmentListAction()
-      systemStore.fetchMenuListAction()
+      systemStore.fetchOtherListAction()
 
       // 跳转至main页面
       router.push('/main')
@@ -70,9 +73,11 @@ const useLoginStore = defineStore('login', {
 
         // 获取角色和菜单列表
         const systemStore = useSystemStore()
-        systemStore.fetchRoleListAction()
-        systemStore.fetchDepartmentListAction()
-        systemStore.fetchMenuListAction()
+        systemStore.fetchOtherListAction()
+
+        // 获取按钮权限
+        const permissions = mapMenusToPermissions(userMenu)
+        this.permissions = permissions
 
         // 在进行动态路由的增加
         const route = mapMenusToRoutes(userMenu)

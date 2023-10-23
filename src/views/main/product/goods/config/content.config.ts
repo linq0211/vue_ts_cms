@@ -1,7 +1,8 @@
 const contentConfig = {
   pageName: 'goods',
   header: {
-    title: '商品列表'
+    title: '商品列表',
+    btnTitle: '新建商品'
   },
   formItem: [
     { type: 'selection', width: '50px' },
@@ -36,8 +37,10 @@ const contentConfig = {
     { type: 'default', label: '收藏', prop: 'favorCount', width: '80px' },
     { type: 'default', label: '地址', prop: 'address', width: '80px' },
 
-    { type: 'time', label: '创建时间', prop: 'createAt' },
-    { type: 'time', label: '更新时间', prop: 'updateAt' }
+    { type: 'time', label: '创建时间', prop: 'createAt', width: '200px' },
+    { type: 'time', label: '更新时间', prop: 'updateAt', width: '200px' },
+
+    { type: 'handler', label: '操作', width: '150px' }
   ]
 }
 export default contentConfig

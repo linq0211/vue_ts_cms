@@ -3,7 +3,7 @@
     <div class="header">
       <h3 class="title">{{ contentConfig.header.title }}</h3>
       <el-button
-        v-if="contentConfig.header.btnTitle"
+        v-if="contentConfig.header.btnTitle && isCreate"
         type="primary"
         @click="onAddClick"
       >
@@ -24,7 +24,7 @@
               align="center"
               :prop="item.prop"
               :label="item.label"
-              :min-width="item.width ?? '200px'"
+              :width="item.width"
             >
               <template #default="scope">
                 {{ formatDate(scope.row[item.prop]) }}
@@ -39,6 +39,7 @@
             >
               <template #default="scope">
                 <el-button
+                  v-if="isUpdate"
                   size="small"
                   type="primary"
                   text
@@ -48,6 +49,7 @@
                   修改
                 </el-button>
                 <el-button
+                  v-if="isDelete"
                   size="small"
                   type="danger"
                   text
@@ -102,6 +104,7 @@ import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import useSystemStore from '@/store/main/system/system'
 import formatDate from '@/utils/format'
+import usePermission from '@/hooks/usePermission'
 
 interface IProps {
   contentConfig: {
@@ -119,8 +122,29 @@ interface IProps {
 const emit = defineEmits(['add-click', 'edit-click'])
 const props = defineProps<IProps>()
 
+// 获取按钮权限
+const isCreate = usePermission(`${props.contentConfig.pageName}:create`)
+const isDelete = usePermission(`${props.contentConfig.pageName}:delete`)
+const isUpdate = usePermission(`${props.contentConfig.pageName}:update`)
+const isQuery = usePermission(`${props.contentConfig.pageName}:query`)
+
 // 获取store中的数据
 const systemStore = useSystemStore()
+// 监听 action 和它们的结果
+// name 表示 action 名称
+// after 表示在 promise 解决之后，允许你在 action 解决后执行一个回调函数
+systemStore.$onAction(({ name, after }) => {
+  after(() => {
+    // 当执行add/edit/delete的action并且执行成功后进行的操作
+    if (
+      name === 'addPageAction' ||
+      name === 'editPageAction' ||
+      name === 'deletePageAction'
+    ) {
+      currentPage.value = 1
+    }
+  })
+})
 const { pageList, pageTotalCount } = storeToRefs(systemStore)
 
 // 分页相关数据
@@ -129,6 +153,8 @@ const pageSize = ref(10) // 每页条目数
 
 // 对网络请求进行封装
 const postPageListData = (formData: any = {}) => {
+  if (!isQuery) return
+
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
 

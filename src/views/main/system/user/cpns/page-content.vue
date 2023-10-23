@@ -2,7 +2,9 @@
   <div class="page-content">
     <div class="header">
       <h3 class="title">用户列表</h3>
-      <el-button type="primary" @click="onAddClick">新建用户</el-button>
+      <el-button v-if="isCreate" type="primary" @click="onAddClick">
+        新建用户
+      </el-button>
     </div>
     <div class="content">
       <el-table :data="pageList" border style="width: 100%">
@@ -56,6 +58,7 @@
         <el-table-column align="center" label="操作" width="150px">
           <template #default="scope">
             <el-button
+              v-if="isUpdate"
               size="small"
               type="primary"
               text
@@ -65,6 +68,7 @@
               修改
             </el-button>
             <el-button
+              v-if="isDelete"
               size="small"
               type="danger"
               text
@@ -96,9 +100,16 @@ import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import useSystemStore from '@/store/main/system/system'
 import formatDate from '@/utils/format'
+import usePermission from '@/hooks/usePermission'
 
 // 向父组件发送事件
 const emit = defineEmits(['add-click', 'edit-click'])
+
+// 获取按钮权限
+const isCreate = usePermission(`users:create`)
+const isDelete = usePermission(`users:delete`)
+const isUpdate = usePermission(`users:update`)
+const isQuery = usePermission(`users:query`)
 
 // 获取store中的数据
 const systemStore = useSystemStore()
@@ -110,6 +121,8 @@ const pageSize = ref(10) // 每页条目数
 
 // 对网络请求进行封装
 const postPageListData = (formData: any = {}) => {
+  if (!isQuery) return
+
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
 

@@ -11,8 +11,8 @@ const contentConfig = {
     { label: '菜单icon', prop: 'icon', width: '200px' },
     { label: '排序', prop: 'sort', width: '80px' },
     { label: '权限', prop: 'permission', width: '150px' },
-    { type: 'time', label: '创建时间', prop: 'createAt' },
-    { type: 'time', label: '更新时间', prop: 'updateAt' },
+    { type: 'time', label: '创建时间', prop: 'createAt',width: '200px' },
+    { type: 'time', label: '更新时间', prop: 'updateAt', width: '200px' },
     { type: 'handler', label: '操作', width: '150px' }
   ],
   childrenTree: {

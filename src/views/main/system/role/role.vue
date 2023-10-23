@@ -50,7 +50,9 @@ import { nextTick } from 'vue'
 
 // 点击新建时的回调函数 => 将树形控件内容置为空
 const addCB = () => {
-  treeRef.value?.setCheckedKeys([])
+  nextTick(() => {
+    treeRef.value?.setCheckedKeys([])
+  })
 }
 
 // 点击修改时的回调函数 => 获取子组件content发出事件中的参数itemData

@@ -1,4 +1,5 @@
 const searchConfig = {
+  pageName: 'role',
   formItem: [
     { type: 'input', label: '角色名称', prop: 'name' },
     { type: 'input', label: '权限介绍', prop: 'intro' },

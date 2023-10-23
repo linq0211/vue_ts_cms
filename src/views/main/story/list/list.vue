@@ -1,10 +1,6 @@
 <template>
   <div class="list">
-    <page-content :content-config="contentConfig">
-      <template #content="scope">
-        {{ scope.row.content }}
-      </template>
-    </page-content>
+    <page-content :content-config="contentConfig" />
   </div>
 </template>
 

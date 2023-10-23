@@ -1,5 +1,5 @@
 <template>
-  <div class="page-search">
+  <div class="page-search" v-if="isQuery">
     <el-form :model="searchForm" ref="formRef" label-width="80px" size="large">
       <el-row :gutter="20">
         <el-col :span="8">
@@ -59,9 +59,13 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import type { ElForm } from 'element-plus'
+import usePermission from '@/hooks/usePermission'
 
 // 向父组件发送事件
 const emit = defineEmits(['reset-click', 'query-click'])
+
+// 获取按钮权限
+const isQuery = usePermission('users:query')
 
 // 定义表单相关内容
 const searchForm = reactive({
