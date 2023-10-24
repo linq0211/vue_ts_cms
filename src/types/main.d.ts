@@ -14,3 +14,12 @@ export interface IModalConfig {
   }
   formItem: any[]
 }
+
+export interface IAnalysis {
+  amountList: any[]
+  categoryCount: any[]
+  categorySale: any[]
+  categoryFavor: any[]
+  saleTop: any[]
+  addressSale: any[]
+}
