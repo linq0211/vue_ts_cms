@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <login-panel/>
+    <login-panel />
   </div>
 </template>
 
@@ -15,6 +15,6 @@ import loginPanel from './cpns/login-panel.vue'
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("@/assets/img/login-bg.svg");
+  background-image: url('@/assets/img/login-bg.svg');
 }
 </style>

@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script setup lang="ts" name="user">
+<script setup lang="ts">
 import { computed } from 'vue'
 import useSystemStore from '@/store/main/system/system'
 

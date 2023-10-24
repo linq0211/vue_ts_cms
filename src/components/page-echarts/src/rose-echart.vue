@@ -28,7 +28,7 @@ const option = computed<EChartsOption>(() => {
     },
     tooltip: {
       formatter: function (params: any) {
-        return `${params.name.slice(0,7)}...` + ' : ' + params.value
+        return `${params.name.slice(0, 7)}...` + ' : ' + params.value
       }
     },
     legend: {

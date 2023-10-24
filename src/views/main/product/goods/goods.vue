@@ -5,10 +5,7 @@
       @query-click="onQueryClick"
       @reset-click="onResetClick"
     />
-    <page-content
-      ref="contentRef"
-      :content-config="contentConfig"
-    >
+    <page-content ref="contentRef" :content-config="contentConfig">
       <template #name="scope">
         <span class="nameSpan">{{ scope.row.name }}</span>
       </template>

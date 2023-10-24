@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<script setup lang="ts" name="user">
+<script setup lang="ts">
 import { ref } from 'vue'
 import pageSearch from './cpns/page-search.vue'
 import pageContent from './cpns/page-content.vue'
