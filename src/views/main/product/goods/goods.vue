@@ -24,7 +24,7 @@
   </div>
 </template>
 
-<script setup lang="ts" name="user">
+<script setup lang="ts">
 import pageSearch from '@/components/page-search/page-search.vue'
 import pageContent from '@/components/page-content/page-content.vue'
 import searchConfig from './config/search.config'

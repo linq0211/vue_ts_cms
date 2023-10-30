@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script setup lang="ts" name="chat"></script>
+<script setup lang="ts"></script>
 
 <style scoped>
 .chat {
